@@ -1,28 +1,14 @@
-import requests
 import pandas as pd
-from ingestion.config import *
+from ingestion.shopify_client import get
 
 
-headers = {
-    "X-Shopify-Access-Token": ACCESS_TOKEN,
-    "Content-Type": "application/json",
-}
-
-def get_orders():
-
-    url = f"{BASE_URL}/orders.json"
-
-    response = requests.get(
-        url,
-        headers=headers,
+def extract_orders(limit=250):
+    data = get(
+        "orders.json",
         params={
             "status": "any",
-            "limit": 250
+            "limit": limit
         }
     )
 
-    response.raise_for_status()
-
-    data = response.json()["orders"]
-
-    return pd.json_normalize(data)
+    return pd.json_normalize(data["orders"])

@@ -1,6 +1,6 @@
-from pathlib import Path
 import duckdb
 import pandas as pd
+from pathlib import Path
 
 DATABASE_DIR = Path("database")
 DATABASE_DIR.mkdir(exist_ok=True)
@@ -10,9 +10,13 @@ DB_PATH = DATABASE_DIR / "shopify.duckdb"
 
 def load_dataframe(df: pd.DataFrame, table_name: str):
     """
-    Loads a pandas DataFrame into DuckDB.
-    Replaces the table if it already exists.
+    Load a DataFrame into DuckDB.
+    Skip loading if the DataFrame has no columns.
     """
+
+    if df.empty and len(df.columns) == 0:
+        print(f"⚠️ Skipping {table_name}: no data returned.")
+        return
 
     conn = duckdb.connect(DB_PATH)
 
