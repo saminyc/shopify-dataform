@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_products
+    description: "Cleaned Shopify products."
+
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_customers
+    description: "Cleaned Shopify customers."
+
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: "Cleaned Shopify orders."
+
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
